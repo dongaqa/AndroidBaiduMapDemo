@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/zoomControls"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="缩放按钮"/>
+
+        <Button
+            android:id="@+id/scale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="比例尺"/>
+
+        <Button
+            android:id="@+id/compass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="指南针"/>
+
+        <Button
+            android:id="@+id/logo_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logo位置"/>
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/ZoomGestures"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="手势缩放"/>
+
+        <Button
+            android:id="@+id/Rotate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="地图旋转"/>
+
+        <Button
+            android:id="@+id/Gestures"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="所有手势"/>
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/MapPoi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="poi"/>
+
+        <Button
+            android:id="@+id/big"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"/>
+
+        <Button
+            android:id="@+id/small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"/>
+
+    </TableRow>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.baidu.mapapi.map.TextureMapView
+            android:id="@+id/mTexturemap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </FrameLayout>
+
+
+</LinearLayout>

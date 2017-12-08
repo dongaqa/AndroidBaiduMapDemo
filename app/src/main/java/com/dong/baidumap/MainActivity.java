@@ -12,7 +12,7 @@ import android.widget.ListView;
 public class MainActivity extends AppCompatActivity {
 
     ListView mListView;
-    String[] mEnters = {"定位","地图","与地图交互"};
+    String[] mEnters = {"定位","地图","与地图交互","绘制"};
 
 
     @Override
@@ -42,7 +42,9 @@ public class MainActivity extends AppCompatActivity {
             case 2:
                 startActivity(MapViewSettingActivity.class);
                 break;
-
+            case 3:
+                startActivity(DrawActivity.class);
+                break;
         }
     }
 
