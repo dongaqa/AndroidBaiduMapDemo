@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/zoomControls"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="缩放按钮"/>
+
+        <Button
+            android:id="@+id/scale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="比例尺"/>
+
+        <Button
+            android:id="@+id/compass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="指南针"/>
+
+        <Button
+            android:id="@+id/logo_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logo位置"/>
+    </TableRow>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.baidu.mapapi.map.TextureMapView
+            android:id="@+id/mTexturemap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </FrameLayout>
+
+
+</LinearLayout>
