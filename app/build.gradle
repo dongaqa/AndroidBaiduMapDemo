@@ -16,7 +16,7 @@ android {
         appkey {
             keyAlias 'appkey'
             keyPassword '88888888'
-            storeFile file('E:/myProject/baiduMap/BaiduMap/appkey.jks')
+            storeFile file('../appkey.jks')
             storePassword '88888888'
         }
     }

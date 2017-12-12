@@ -19,7 +19,9 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
     ListView mListView;
+
     String[] mEnters = {"定位","地图","与地图交互","111","搜索","检查权限"};
+
 
 
     @Override
@@ -37,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
     }
 
 
@@ -53,13 +53,15 @@ public class MainActivity extends AppCompatActivity {
             case 2:
                 startActivity(MapViewSettingActivity.class);
                 break;
+            case 3:
+                startActivity(DrawActivity.class);
+                break;
             case 4:
                 startActivity(AddressSearchActivity.class);
                 break;
             case 5:
                 checkPermission();
                 break;
-
         }
     }
 

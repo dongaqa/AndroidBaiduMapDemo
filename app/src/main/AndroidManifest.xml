@@ -55,6 +55,7 @@
         <activity android:name=".AddressSearchActivity"/>
         <activity android:name=".LocationActivity"/>
         <activity android:name=".MapViewSettingActivity"/>
+        <activity android:name=".DrawActivity"/>
 
 
         <!-- 百度地图   keytool -v -list -keystore ***.keystore-->
