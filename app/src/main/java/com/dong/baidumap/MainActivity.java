@@ -1,18 +1,25 @@
 package com.dong.baidumap;
 
+import android.Manifest;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
     ListView mListView;
-    String[] mEnters = {"定位","地图","与地图交互"};
+    String[] mEnters = {"定位","地图","与地图交互","111","搜索","检查权限"};
 
 
     @Override
@@ -28,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
                 jumpTo(i);
             }
         });
+
+
+
+
     }
 
 
@@ -42,12 +53,53 @@ public class MainActivity extends AppCompatActivity {
             case 2:
                 startActivity(MapViewSettingActivity.class);
                 break;
+            case 4:
+                startActivity(AddressSearchActivity.class);
+                break;
+            case 5:
+                checkPermission();
+                break;
 
         }
     }
 
     private void startActivity(Class clz){
         startActivity(new Intent(this,clz));
+    }
+
+
+
+    private void checkPermission(){
+        //1
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+//            //2
+//            int result = checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION);
+//            //PackageManager.PERMISSION_GRANTED  PackageManager.PERMISSION_DENIED
+//            if (result != PackageManager.PERMISSION_GRANTED){
+//                toast("没权限");
+//                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CAMERA},666);
+//            }else {
+//                toast("有权限");
+//            }
+
+            if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                toast("上次点了不在询问");
+            }else {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CAMERA},666);
+            }
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        toast(" "+requestCode+"  "+ Arrays.toString(permissions)+"  "+Arrays.toString(grantResults));
+        Log.e("666"," "+requestCode+"  "+permissions+"  "+grantResults);
+    }
+
+    private void toast(String s){
+        Toast.makeText(this,s,Toast.LENGTH_SHORT).show();
     }
 
 }

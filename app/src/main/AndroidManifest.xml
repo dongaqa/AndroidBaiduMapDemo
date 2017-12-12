@@ -56,6 +56,7 @@
         <activity android:name=".LocationActivity"/>
         <activity android:name=".MapViewSettingActivity"/>
 
+
         <!-- 百度地图   keytool -v -list -keystore ***.keystore-->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

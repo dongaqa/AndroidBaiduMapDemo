@@ -43,15 +43,15 @@ public class MapViewSettingActivity extends Activity implements View.OnClickList
             LogoPosition.logoPostionRightTop};
     int position =0;
 
-    boolean compassEnable;
-    boolean scaleEnable;
-    boolean zoomControlsEnable;
+    boolean compassEnable = false;
+    boolean scaleEnable = true;
+    boolean zoomControlsEnable = true;
 
-    boolean zoomGesturesEnable;
-    boolean rotateEnable;
-    boolean gesturesControlsEnable;
+    boolean zoomGesturesEnable = true;
+    boolean rotateEnable = true;
+    boolean gesturesControlsEnable = true;
 
-    boolean mapPioEnable;
+    boolean mapPioEnable = true;
 
     SDKReceiver mReceiver;
 
