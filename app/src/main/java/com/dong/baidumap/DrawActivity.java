@@ -1,26 +1,28 @@
 package com.dong.baidumap;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
-import com.baidu.location.BDAbstractLocationListener;
-import com.baidu.location.BDLocation;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.GroundOverlayOptions;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.MyLocationConfiguration;
-import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.PolygonOptions;
+import com.baidu.mapapi.map.Polyline;
+import com.baidu.mapapi.map.PolylineOptions;
+import com.baidu.mapapi.map.Stroke;
+import com.baidu.mapapi.map.TextOptions;
 import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,159 +31,214 @@ import java.util.List;
  * Created by Dong on 2017/12/9.
  */
 
-public class DrawActivity extends Activity {
+public class DrawActivity extends Activity implements View.OnClickListener{
 
     private TextureMapView mMapView;
     private BaiduMap mBaiduMap;
-    //定位
-    public LocationClient mLocationClient = null;
-    private MyLocationListener myListener = new MyLocationListener();
-    LocationClientOption option;
 
-
+    //地理坐标基本数据结构
+    LatLng mLatLng=new LatLng(0,0);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_draw);
 
-
         mMapView = (TextureMapView) findViewById(R.id.mTexturemap);
         mBaiduMap = mMapView.getMap();
 
-        //设置定位图层
-        mBaiduMap.setMyLocationConfiguration(locationConfig());
-        //开启定位
-        initLBS();
-        mLocationClient.start();
+        //地图显示对应经纬度
+        MapStatusUpdate msu= MapStatusUpdateFactory.newLatLng(mLatLng);
+        mBaiduMap.setMapStatus(msu);
 
-        // 开启定位图层
-        mBaiduMap.setMyLocationEnabled(true);
+        mMapView.showZoomControls(false);
 
-
-
-
+        findViewById(R.id.marker).setOnClickListener(this);
+        findViewById(R.id.line).setOnClickListener(this);
+        findViewById(R.id.polygon).setOnClickListener(this);
+        findViewById(R.id.text).setOnClickListener(this);
 
 
-
-
+        findViewById(R.id.info_window).setOnClickListener(this);
+        findViewById(R.id.over_layout).setOnClickListener(this);
+        findViewById(R.id.clean).setOnClickListener(this);
     }
 
 
-
-    private MyLocationConfiguration locationConfig(){
-
-//        mCurrentMode = LocationMode.FOLLOWING;//定位跟随态
-//        mCurrentMode = LocationMode.NORMAL;   //默认为 LocationMode.NORMAL 普通态
-//        mCurrentMode = LocationMode.COMPASS;  //定位罗盘态
-        MyLocationConfiguration.LocationMode locationMode = MyLocationConfiguration.LocationMode.NORMAL;
-
-        //是否开启方向
-        boolean enableDirection = true;
-
-        //自定义定位图标
-        BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher);
-
-        //精度圈填充颜色
-        int accuracyCircleFillColor = Color.parseColor("#99ff0000");
-
-        //自定义精度圈边框颜色
-        int accuracyCircleStrokeColor = Color.parseColor("#11ff0000");
-
-        MyLocationConfiguration locationConfiguration = new MyLocationConfiguration(
-                locationMode,
-                enableDirection,
-                bitmapDescriptor,
-                accuracyCircleFillColor,
-                accuracyCircleStrokeColor
-        );
-
-        return locationConfiguration;
-    }
-
-    private void initLBS(){
-
-        mLocationClient = new LocationClient(getApplicationContext());
-        //声明LocationClient类
-        mLocationClient.registerLocationListener(myListener);
-        //注册监听函数
-
-        option = new LocationClientOption();
-
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-
-        option.setCoorType("bd09ll");
-
-        option.setScanSpan(1000);
-
-        option.setOpenGps(true);
-
-        mLocationClient.setLocOption(option);
-    }
-
-
-    public class MyLocationListener extends BDAbstractLocationListener {
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            double latitude = location.getLatitude();    //获取纬度信息
-            double longitude = location.getLongitude();    //获取经度信息
-            Log.e("444",latitude+" "+longitude);
-            // 构造定位数据
-            MyLocationData locData = new MyLocationData.Builder()
-                    .accuracy(location.getRadius())
-                    // 此处设置开发者获取到的方向信息，顺时针0-360
-                    .direction(100).latitude(location.getLatitude())
-                    .longitude(location.getLongitude()).build();
-
-            // 设置定位数据
-            mBaiduMap.setMyLocationData(locData);
-
-            mLocationClient.stop();
-
-
-
-            //地理坐标基本数据结构
-            LatLng latLng=new LatLng(latitude,longitude);
-            //描述地图状态将要发生的变化,通过当前经纬度来使地图显示到该位置
-            MapStatusUpdate msu= MapStatusUpdateFactory.newLatLng(latLng);
-            //改变地图状态
-            mBaiduMap.setMapStatus(msu);
-
-            //点标记
-            addPointsNearby(location);
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.marker:
+                addPointsNearby(mLatLng);
+                break;
+            case R.id.line:
+                drawLine(mLatLng);
+                break;
+            case R.id.polygon:
+                drawPolygon(mLatLng);
+                break;
+            case R.id.info_window:
+                drawInfoWindow();
+                break;
+            case R.id.text:
+                drawText();
+                break;
+            case R.id.over_layout:
+                drawLayout(mLatLng);
+                break;
+            case R.id.clean:
+                mBaiduMap.clear();
+                break;
         }
     }
 
 
-    //在位置附近添加几个点
-    private void addPointsNearby(BDLocation location){
+
+
+    //在位置附近画点
+    private void addPointsNearby(LatLng latLng){
         //创建OverlayOptions的集合
 
-        List<OverlayOptions> options = new ArrayList<OverlayOptions>();
-//设置坐标点
+        List<OverlayOptions> options = new ArrayList<>();
+        //设置坐标点
 
-        LatLng point1 = new LatLng(location.getLatitude()+0.05, location.getLongitude()+0.05);
-        LatLng point2 = new LatLng(location.getLatitude()-0.05, location.getLongitude()-0.05);
+        LatLng point1 = new LatLng(latLng.longitude+0.05, latLng.longitude+0.05);
+        LatLng point2 = new LatLng(latLng.longitude-0.05, latLng.longitude-0.05);
 
 
         BitmapDescriptor bdA = BitmapDescriptorFactory
                 .fromResource(R.mipmap.icon_location);
 
-//创建OverlayOptions属性
+        //创建OverlayOptions属性
 
-        OverlayOptions option1 =  new MarkerOptions()
+        MarkerOptions option1 =  new MarkerOptions()
                 .position(point1)
                 .icon(bdA)
                 .draggable(true);
+
         OverlayOptions option2 =  new MarkerOptions()
                 .position(point2)
                 .icon(bdA);
-//将OverlayOptions添加到list
+
+        //动画
+        //Marker帧动画
+//        ArrayList<BitmapDescriptor> giflist = new ArrayList<BitmapDescriptor>();
+//
+//        giflist.add(bdA);
+//        giflist.add(bdB);
+//        giflist.add(bdC);
+//
+//        OverlayOptions ooD = new MarkerOptions().position(pt).icons(giflist)
+//                .zIndex(0).period(10);
+        //系统动画
+        option1.animateType(MarkerOptions.MarkerAnimateType.grow);
+
+
+
+
+        //将OverlayOptions添加到list
         options.add(option1);
         options.add(option2);
+
+
         //在地图上批量添加
         mBaiduMap.addOverlays(options);
     }
 
+    private void drawLine(LatLng latLng){
+        //构建折线点坐标
+        LatLng p1 = new LatLng(latLng.longitude+0.05, latLng.longitude+0.05);
+        LatLng p2 = new LatLng(latLng.longitude+0.03, latLng.longitude+0.07);
+        LatLng p3 = new LatLng(latLng.longitude-0.05, latLng.longitude-0.05);
+        List<LatLng> points = new ArrayList<LatLng>();
+        points.add(p1);
+        points.add(p2);
+        points.add(p3);
+
+        //绘制折线
+        OverlayOptions ooPolyline = new PolylineOptions().width(10)
+                .color(0xAAFF0000).points(points);
+        Polyline polyline = (Polyline) mBaiduMap.addOverlay(ooPolyline);
+
+        //虚线
+        polyline.setDottedLine(true);
+    }
+
+    private void drawPolygon(LatLng latLng){
+        LatLng pt1 = new LatLng(latLng.longitude+0.05, latLng.longitude+0.05);
+        LatLng pt2 = new LatLng(latLng.longitude+0.06, latLng.longitude+0.06);
+        LatLng pt3 = new LatLng(latLng.longitude+0.11, latLng.longitude+0.09);
+        LatLng pt4 = new LatLng(latLng.longitude+0.05, latLng.longitude+0.01);
+        LatLng pt5 = new LatLng(latLng.longitude-0.05, latLng.longitude+0.03);
+        List<LatLng> pts = new ArrayList<LatLng>();
+        pts.add(pt1);
+        pts.add(pt2);
+        pts.add(pt3);
+        pts.add(pt4);
+        pts.add(pt5);
+
+//构建用户绘制多边形的Option对象
+        OverlayOptions polygonOption = new PolygonOptions()
+                .points(pts)
+                .stroke(new Stroke(5, 0xAA00FF00))
+                .fillColor(0xAAFFFF00);
+
+//在地图上添加多边形Option，用于显示
+        mBaiduMap.addOverlay(polygonOption);
+    }
+
+
+    private void drawText(){
+        //构建文字Option对象，用于在地图上添加文字
+        OverlayOptions textOption = new TextOptions()
+                .bgColor(0xAAFFFF00)
+                .fontSize(24)
+                .fontColor(0xFFFF00FF)
+                .text("百度地图SDK")
+                .rotate(-30)
+                .position(mLatLng);
+
+        //在地图上添加该文字对象并显示
+        mBaiduMap.addOverlay(textOption);
+    }
+
+
+    private void drawInfoWindow(){
+//创建InfoWindow展示的view
+        Button button = new Button(getApplicationContext());
+        button.setText("Button");
+
+
+//创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
+        InfoWindow mInfoWindow = new InfoWindow(button, mLatLng, -47);
+
+//显示InfoWindow
+        mBaiduMap.showInfoWindow(mInfoWindow);
+
+    }
+
+
+    private void drawLayout(LatLng latLng){
+        //定义Ground的显示地理范围
+        LatLng pt1 = new LatLng(latLng.longitude-0.10, latLng.longitude-0.10);
+        LatLng pt2 = new LatLng(latLng.longitude+0.2, latLng.longitude+2);
+        LatLngBounds bounds = new LatLngBounds.Builder()
+                .include(pt1)
+                .include(pt2)
+                .build();
+
+//定义Ground显示的图片
+        BitmapDescriptor bdGround = BitmapDescriptorFactory
+                .fromResource(R.mipmap.bg_mine1);
+
+//定义Ground覆盖物选项
+        OverlayOptions ooGround = new GroundOverlayOptions()
+                .positionFromBounds(bounds)
+                .image(bdGround)
+                .transparency(0.8f);
+
+//在地图中添加Ground覆盖物
+        mBaiduMap.addOverlay(ooGround);
+    }
 
 }

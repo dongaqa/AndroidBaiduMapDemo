@@ -25,7 +25,7 @@ import com.baidu.mapapi.model.LatLng;
  * Created by Dong on 2017/12/6.
  */
 
-public class MapActivity extends AppCompatActivity {
+public class MapLocationActivity extends AppCompatActivity {
 
     private TextureMapView mMapView;
     private BaiduMap mBaiduMap;
@@ -38,7 +38,7 @@ public class MapActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_map_location);
 
 
         mMapView = (TextureMapView) findViewById(R.id.mTexturemap);

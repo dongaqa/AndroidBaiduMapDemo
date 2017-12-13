@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     ListView mListView;
 
-    String[] mEnters = {"定位","地图","与地图交互","111","搜索","检查权限"};
+    String[] mEnters = {"定位","初始化地图","地图定位","地图设置","地图绘画","地图交互事件","搜索","检查权限"};
 
 
 
@@ -48,18 +48,24 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(LocationActivity.class);
                 break;
             case 1:
-                startActivity(MapActivity.class);
+                startActivity(MapInit.class);
                 break;
             case 2:
-                startActivity(MapViewSettingActivity.class);
+                startActivity(MapLocationActivity.class);
                 break;
             case 3:
-                startActivity(DrawActivity.class);
+                startActivity(MapViewSettingActivity.class);
                 break;
             case 4:
-                startActivity(AddressSearchActivity.class);
+                startActivity(DrawActivity.class);
                 break;
             case 5:
+                startActivity(ListenerActivity.class);
+                break;
+            case 6:
+                startActivity(AddressSearchActivity.class);
+                break;
+            case 7:
                 checkPermission();
                 break;
         }

@@ -10,74 +10,49 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/zoomControls"
+            android:id="@+id/marker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="缩放按钮"/>
+            android:text="Marker"/>
 
         <Button
-            android:id="@+id/scale"
+            android:id="@+id/line"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="比例尺"/>
+            android:text="线"/>
 
         <Button
-            android:id="@+id/compass"
+            android:id="@+id/polygon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="指南针"/>
+            android:text="面"/>
 
         <Button
-            android:id="@+id/logo_position"
+            android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Logo位置"/>
+            android:text="文字"/>
     </TableRow>
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/ZoomGestures"
+            android:id="@+id/over_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="手势缩放"/>
-
+            android:text="OverLayout"/>
         <Button
-            android:id="@+id/Rotate"
+            android:id="@+id/info_window"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="地图旋转"/>
-
+            android:text="InfoWindow"/>
         <Button
-            android:id="@+id/Gestures"
+            android:id="@+id/clean"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="所有手势"/>
+            android:text="清屏"/>
 
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/MapPoi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="poi"/>
-
-        <Button
-            android:id="@+id/big"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+"/>
-
-        <Button
-            android:id="@+id/small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-"/>
 
     </TableRow>
 
